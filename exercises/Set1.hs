@@ -56,7 +56,7 @@ quadruple x = double (double x)
 --   distance 1 1 4 5  ==>  5.0
 
 distance :: Double -> Double -> Double -> Double -> Double
-distance x1 y1 x2 y2 = sqrt (abs(x1 - x2)^2 + abs(y1 - y2)^2)
+distance x1 y1 x2 y2 = sqrt (abs (x1 - x2) ^ 2 + abs (y1 - y2) ^ 2)
 
 ------------------------------------------------------------------------------
 -- Ex 5: define the function eeny that returns "eeny" for even inputs
@@ -65,7 +65,8 @@ distance x1 y1 x2 y2 = sqrt (abs(x1 - x2)^2 + abs(y1 - y2)^2)
 -- Ps. have a look at the built in function "even"
 
 eeny :: Integer -> String
-eeny x = if x `mod` 2 == 0 
+eeny x =
+  if x `mod` 2 == 0
     then "eeny"
     else "meeny"
 
@@ -75,9 +76,10 @@ eeny x = if x `mod` 2 == 0
 -- "mellon".
 
 checkPassword :: String -> String
-checkPassword password = if password == "swordfish" || password == "mellon"
-                         then "You're in."
-                         else "ACCESS DENIED!"
+checkPassword password =
+  if password == "swordfish" || password == "mellon"
+    then "You're in."
+    else "ACCESS DENIED!"
 
 ------------------------------------------------------------------------------
 -- Ex 7: A postal service prices packages the following way.
@@ -89,9 +91,11 @@ checkPassword password = if password == "swordfish" || password == "mellon"
 -- in grams, and returns the cost in credits.
 
 postagePrice :: Int -> Int
-postagePrice weight = if weight <= 500
+postagePrice weight =
+  if weight <= 500
     then 250
-    else if weight <= 5000
+    else
+      if weight <= 5000
         then 300 + weight
         else 6000
 
