@@ -191,6 +191,7 @@ counter :: (String, Integer) -> (Bool, String, Integer)
 counter ("inc", n) = (True, "done", n + 1)
 counter ("print", n) = (True, show n, n)
 counter ("quit", n) = (False, "bye bye", n)
+counter _ = (False, "Error", 0) -- Shut up the warnings
 
 interact' :: ((String, st) -> (Bool, String, st)) -> st -> IO st
 interact' f state = do
