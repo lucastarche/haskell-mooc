@@ -9,8 +9,10 @@ import Data.Char (toUpper)
 -- Ex 1: Define a constant pounds with type Money GBP and a value of
 -- 3. The type Money is imported from Example.Phantom but you'll need
 -- to introduce GBP yourself.
+data GBP
 
-pounds = todo
+pounds :: Money GBP
+pounds = Money 3
 
 ------------------------------------------------------------------------------
 -- Ex 2: Implement composition for Rates. Give composeRates a
@@ -27,7 +29,8 @@ pounds = todo
 usdToChf :: Rate USD CHF
 usdToChf = Rate 1.11
 
-composeRates rate1 rate2 = todo
+composeRates :: (Rate a b) -> (Rate b c) -> (Rate a c)
+composeRates (Rate rate1) (Rate rate2) = Rate (rate1 * rate2)
 
 ------------------------------------------------------------------------------
 -- Ex 3: Tracking first, last and full names with phantom types. The
@@ -45,19 +48,22 @@ composeRates rate1 rate2 = todo
 --  fromName (toLast "smith") ==> "smith"
 --  toFirst "bob" :: Name First
 --  toLast "smith" :: Name Last
-
+data First
+data Last
+data Full
+data Name a = Name String
 
 -- Get the String contained in a name
---fromName :: Name a -> String
-fromName = todo
+fromName :: Name a -> String
+fromName (Name s) = s
 
 -- Build a Name First
---toFirst :: String -> Name First
-toFirst = todo
+toFirst :: String -> Name First
+toFirst s = Name s
 
 -- Build a Name Last
---toLast :: String -> Name Last
-toLast = todo
+toLast :: String -> Name Last
+toLast s = Name s
 
 ------------------------------------------------------------------------------
 -- Ex 4: Implement the functions capitalize and toFull.
@@ -77,9 +83,11 @@ toLast = todo
 --  capitalize (toLast "smith") :: Name Last
 --  fromName (capitalize (toLast "smith")) ==> "Smith"
 
-capitalize = todo
+capitalize :: Name a -> Name a
+capitalize (Name s) = Name ((toUpper (head s)) : (tail s))
 
-toFull = todo
+toFull :: Name First -> Name Last -> Name Full
+toFull (Name first) (Name last) = Name (first ++ " " ++ last)
 
 ------------------------------------------------------------------------------
 -- Ex 5: Type classes can let you write code that handles different
@@ -93,3 +101,11 @@ toFull = todo
 class Render currency where
   render :: Money currency -> String
 
+instance Render EUR where
+  render (Money x) = (show x) ++ "e"
+  
+instance Render USD where
+  render (Money x) = "$" ++ (show x)
+
+instance Render CHF where
+  render (Money x) = (show x) ++ "chf"
