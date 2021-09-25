@@ -1,9 +1,8 @@
 module Set16b where
 
-import Mooc.Todo
-import Examples.Phantom
-
 import Data.Char (toUpper)
+import Examples.Phantom
+import Mooc.Todo
 
 ------------------------------------------------------------------------------
 -- Ex 1: Define a constant pounds with type Money GBP and a value of
@@ -49,8 +48,11 @@ composeRates (Rate rate1) (Rate rate2) = Rate (rate1 * rate2)
 --  toFirst "bob" :: Name First
 --  toLast "smith" :: Name Last
 data First
+
 data Last
+
 data Full
+
 data Name a = Name String
 
 -- Get the String contained in a name
@@ -103,7 +105,7 @@ class Render currency where
 
 instance Render EUR where
   render (Money x) = (show x) ++ "e"
-  
+
 instance Render USD where
   render (Money x) = "$" ++ (show x)
 

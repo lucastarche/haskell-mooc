@@ -349,10 +349,7 @@ modifySL f = SL (\s -> ((), f s, []))
 
 instance Functor SL where
   -- implement fmap
-  fmap f g = do
-    n <- getSL
-    let (x, i, logs) = runSL g n
-    SL (\s -> (f x, s, logs))
+  fmap f (SL g) = SL (\s -> let (x, n, i) = g s in (f x, n, i))
 
 -- This is an Applicative instance that works for any monad, you
 -- can just ignore it for now. We'll get back to Applicative later.
@@ -363,7 +360,14 @@ instance Applicative SL where
 instance Monad SL where
   -- implement return and >>=
   return x = SL (\s -> (x, s, []))
-  g >>= f = todo
+  (SL g) >>= f =
+    SL
+      ( \s ->
+          let (x, n, i) = g s
+              SL b = f x
+              (x', n', i') = b n
+           in (x', n', i ++ i')
+      )
 
 ------------------------------------------------------------------------------
 -- Ex 9: Implement the operation mkCounter that produces the IO operations
